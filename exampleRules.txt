@@ -1,0 +1,10 @@
+Model: PhpClass with name="ar*"
+Controller: PhpClass with name="*GUI"
+
+arDeleteGUI: PhpClass with name="arDeleteGUI"
+ActiveRecord: PhpClass with name="ActiveRecord"
+
+Model cannot depend on Controller
+arDeleteGUI must depend on ActiveRecord
+arDeleteGUI cannot depend on ActiveRecord
+only Controller can depend on Controller
