@@ -43,7 +43,7 @@ class DictoHtmlOutput {
         $data = array (
             'rules' => $rules,
             'violationIndex' => $index,
-            'violationIndexDiff' => $index - $oldIndex,
+            'violationIndexDiff' => $oldIndex ? $index - $oldIndex: $index,
         );
         $template = $this->view->make('index', $data);
         file_put_contents($filePath, $template->render());

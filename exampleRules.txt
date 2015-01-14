@@ -1,10 +1,5 @@
-Model: PhpClass with name="ar*"
-Controller: PhpClass with name="*GUI"
+RuleResult: PhpClass with name="Dicto\\RuleResult"
+DictoTalker: PhpClass with name="Dicto\\DictoTalker"
 
-arDeleteGUI: PhpClass with name="arDeleteGUI"
-ActiveRecord: PhpClass with name="ActiveRecord"
-
-Model cannot depend on Controller
-arDeleteGUI must depend on ActiveRecord
-arDeleteGUI cannot depend on ActiveRecord
-only Controller can depend on Controller
+RuleResult cannot depend on DictoTalker
+DictoTalker must depend on RuleResult

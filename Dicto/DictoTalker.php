@@ -160,7 +160,6 @@ class DictoTalker {
         $rules = array(
             'rules' => $rules
         );
-        print_r(json_encode($rules));
         return json_encode($rules);
     }
 

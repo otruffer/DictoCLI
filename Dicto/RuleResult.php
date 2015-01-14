@@ -95,7 +95,7 @@ class RuleResult {
      */
     public function getAddedViolations() {
         if(!$this->previousResult)
-            return array();
+            return $this->violations;
         return array_diff($this->violations, $this->previousResult->getViolations());
     }
 
