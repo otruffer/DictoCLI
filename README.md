@@ -31,11 +31,14 @@ To list all available commands. An example usage:
 ./dicto.php generateResults --suiteName="DictoCLI"
 
 # List the results and save it in json form into a file.
-./dicto.php listResults --suiteName="DictoCLI" -s ./results/res
+./dicto.php listResults --suiteName="DictoCLI" -s ./results/res.json
 
 # Create html output
 ./dicto.php htmlOutput --suiteName="DictoCLI" results/index.html
 
 #./Create html output relativly to a previous run:
-./dicto.php htmlOutput --suiteName="DictoCLI" results/index.html -c ./results/res
+./dicto.php htmlOutput --suiteName="DictoCLI" results/index.html -c ./results/exampleOldResult.json
 ```
+Result:
+-------
+![alt text](https://raw.githubusercontent.com/otruffer/DictoCLI/master/results/exampleResult.png "The result of the last command.")
