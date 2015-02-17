@@ -17,7 +17,7 @@ class CheckCommand extends Command {
                 'The file with the dicto rules.'
             )
             ->addArgument(
-              'projectFolder',
+              'project-dir',
                InputArgument::REQUIRED,
                'The project folder with the source in it.'
             )
@@ -45,7 +45,7 @@ class CheckCommand extends Command {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dictoRulesFile = $input->getArgument('dictoRules');
-        $projectFolder = $input->getArgument('projectFolder');
+        $projectFolder = $input->getArgument('project-dir');
 
         $suiteName = $input->getOption('suiteName') ? $input->getOption('suiteName') : 'DictoCommandLineSuite';
         $port = $input->getOption('port') ? $input->getOption('port') : 8010;

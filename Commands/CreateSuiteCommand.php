@@ -21,7 +21,7 @@ class CreateSuiteCommand extends DictoCommand {
                 "The suite's name and id"
             )
             ->addArgument(
-                'projectFolder',
+                'project-dir',
                 InputArgument::REQUIRED,
                 "The absolute path to the project directiory."
             )
@@ -44,7 +44,7 @@ class CreateSuiteCommand extends DictoCommand {
         parent::execute($input, $output);
 
         $suiteName = $input->getArgument('suiteName');
-        $projectFolder = $input->getArgument('projectFolder');
+        $projectFolder = $input->getArgument('project-dir');
         $projectSource = $input->getOption('projectSource') ? $input->getOption('projectSource') : './';
         $projectBinaries = $input->getOption('projectBinaries')? $input->getOption('projectSource') : './';
 

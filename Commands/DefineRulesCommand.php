@@ -13,7 +13,7 @@ class DefineRulesCommand extends DictoCommand {
         $this->setName('defineRules')
             ->setDescription('Define rules for a test suite.')
             ->addArgument(
-                'rulesFile',
+                'dicto-rules',
                 InputArgument::REQUIRED,
                 'The file that contains the rules.'
             );
@@ -23,7 +23,7 @@ class DefineRulesCommand extends DictoCommand {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         parent::execute($input, $output);
-        $file = $input->getArgument('rulesFile');
+        $file = $input->getArgument('dicto-rules');
         $rules = file_get_contents($file);
         $output->writeln($this->dicto->defineRules($rules));
     }
