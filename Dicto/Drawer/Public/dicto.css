@@ -29,3 +29,11 @@
 .pointerCursor {
   cursor: pointer;
 }
+
+body {
+    background: #ffffff;
+}
+
+.ui.grid {
+    margin: 0;
+}
