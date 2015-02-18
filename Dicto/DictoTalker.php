@@ -94,10 +94,11 @@ class DictoTalker {
 
         $result = curl_exec($curl);
         curl_close($curl);
-        if($jsonDecode)
+        if($jsonDecode) {
             $result = json_decode($result, true);
+        }
         if(is_array($result) && isset($result['error']))
-            throw new DictoAPIException(print_r($result['error'], true));
+            throw new DictoAPIException("API returned with an error: " . print_r($result['error'], true));
         if(is_array($result) &&isset($result['status-code']) && $result['status-code'] >= 400)
             throw new DictoAPIException($result['status-code'].": ".$result['status-message']);
 
@@ -171,7 +172,7 @@ class DictoTalker {
      */
     public function getResults($suiteName) {
         $jsonResults = $this->callApi(self::GET, 'results', $this->getSuiteName($suiteName), null, true, 3600);
-        return $this->fillJsonResults($jsonResults);
+        return $this->fillJsonResults(json_decode($jsonResults, true));
     }
 
     /**
@@ -186,7 +187,8 @@ class DictoTalker {
             $rule->setRule($jsonRule['value']);
             $subrule = array_pop($jsonRule["subrules"]);
             $rule->setTestedBy($subrule['testedBy']);
-            $rule->parseViolations($subrule['errorMessage']);
+            if(array_key_exists('errors', $subrule))
+                $rule->setError($subrule['errors']);
             $results[] = $rule;
         }
         return $results;

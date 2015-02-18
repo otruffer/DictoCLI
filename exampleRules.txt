@@ -1,5 +1,6 @@
-RuleResult: PhpClass with name="Dicto\\RuleResult"
-DictoTalker: PhpClass with name="Dicto\\DictoTalker"
+RuleResult = PhpClass with name:"Dicto\\RuleResult"
+DictoTalker = PhpClass with name:"Dicto\\DictoTalker"
 
 RuleResult cannot depend on DictoTalker
 DictoTalker must depend on RuleResult
+only DictoTalker can depend on DictoTalker

@@ -47,7 +47,7 @@
                         <div class="content">
                             {{ $rule->getRule() }}
                             <div class="ui label">
-                                {{ count($rule->getViolations()) }}
+                                {{ count($rule->getErrors()) }}
                             </div>
                         </div>
                     </h3>
@@ -69,11 +69,11 @@
                     <i class="lightning icon"></i>
                 </div>
                 <div class="dictoOpenable">
-                    @if($rule->getAddedViolations())
+                    @if($rule->hasPreviousResult() && $rule->getAddedViolations())
                         <h4>Newly Introduced Violations</h4>
                         <ul class="ui list">
                             @foreach( $rule->getAddedViolations() as $violation)
-                                <li>{{{ $violation }}}</li>
+                                <li>{{{ $violation['cause'] }}}</li>
                             @endforeach
                         </ul>
                     @endif
@@ -82,19 +82,19 @@
                         <h4>Resolved Violations</h4>
                         <ul class="ui list">
                             @foreach( $rule->getResolvedViolations() as $violation)
-                                <li>{{{ $violation }}}</li>
+                                <li>{{{ $violation['cause'] }}}</li>
                             @endforeach
                         </ul>
                     @endif
 
-                    @if($rule->getViolations())
+                    @if( count($rule->getErrors()) )
                         <h4 class="dictoOpen">
                             <i class="dropdown icon"></i>
                             All Current Violations
                         </h4>
                         <ul class="ui list dictoOpenable">
-                            @foreach( $rule->getViolations() as $violation)
-                                <li>{{{ $violation }}}</li>
+                            @foreach( $rule->getErrors() as $error)
+                                <li>{{{ $error['cause'] }}}</li>
                             @endforeach
                         </ul>
                     @else

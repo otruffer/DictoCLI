@@ -35,11 +35,10 @@ class ListResultsCommand extends DictoCommand {
         foreach($rules as $rule) {
             $output->writeln($rule->getRule(). " has " . ($rule->isFailed() ? 'failed' : 'passed'));
             if($rule->isFailed()) {
-                $output->writeln("There were " . count($rule->getViolations()) ." violations.");
+                $output->writeln("There were " . count($rule->getErrors()) ." violations.");
                 if($input->getOption('listViolations')) {
-                    $output->writeln("Namely:");
-                    foreach($rule->getViolations() as $violation) {
-                        $output->writeln($violation);
+                    foreach($rule->getErrors() as $error) {
+                        $output->writeln(print_r($error, true));
                     }
                 }
             }

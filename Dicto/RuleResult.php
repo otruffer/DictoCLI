@@ -13,8 +13,8 @@ class RuleResult {
     /** @var  string */
     public $testedBy;
 
-    /** @var  string[] */
-    public $violations;
+    /** @var  string[][] array with of array. second array with keys "cause", "fix", "details" */
+    public $errors;
 
     /** @var  RuleResult */
     protected $previousResult;
@@ -68,19 +68,10 @@ class RuleResult {
     }
 
     /**
-     * @return \string[]
+     * @return \string[][] array with of array. second array with keys "cause", "fix", "details"
      */
-    public function getViolations()
-    {
-        return $this->violations;
-    }
-
-    /**
-     * @param \string[] $violations
-     */
-    public function setViolations($violations)
-    {
-        $this->violations = $violations;
+    public function getErrors() {
+        return $this->errors;
     }
 
     /**
@@ -90,13 +81,17 @@ class RuleResult {
         $this->previousResult = $result;
     }
 
+    public function hasPreviousResult() {
+        return isset($this->previousResult);
+    }
+
     /**
      * @return array returns a string list of all violations that are present in this ruleResult which were not present in the previous ruleResult.
      */
     public function getAddedViolations() {
         if(!$this->previousResult)
-            return $this->violations;
-        return array_diff($this->violations, $this->previousResult->getViolations());
+            return $this->errors;
+        return $this->error_diff($this->errors, $this->previousResult->getErrors());
     }
 
     /**
@@ -105,7 +100,7 @@ class RuleResult {
     public function getResolvedViolations() {
         if(!$this->previousResult)
             return array();
-        return array_diff($this->previousResult->getViolations(), $this->getViolations());
+        return $this->error_diff($this->previousResult->getErrors(), $this->getErrors());
     }
 
     /**
@@ -116,22 +111,44 @@ class RuleResult {
     }
 
     /**
-     * @param $dictoErrorMessage
+     * @param $errors
      */
-    public function parseViolations($dictoErrorMessage) {
-        if(!$dictoErrorMessage)
-            $this->setViolations(array());
-        $dictoErrorMessage = substr($dictoErrorMessage, 18);
-        $violations = explode('; ', $dictoErrorMessage);
-        $this->setViolations(array_filter($violations));
+    public function setError($errors) {
+        //TODO remove.
+        $this->errors = $errors;
     }
 
     /**
      * @param $array Reads from array.
      */
-    public function readFromArray($array) {
-        foreach($array as $key => $value) {
+    public function readFromArray($array)
+    {
+        foreach ($array as $key => $value) {
             $this->$key = $value;
         }
+    }
+
+    /**
+     * @param $array1 array
+     * @param $array2 array
+     * @return array
+     */
+    protected function error_diff($array1, $array2)
+    {
+        if($array1 == null)
+            return array();
+        if($array2 == null)
+            return $array1;
+        $newArray = array();
+        foreach($array1 as $arr) {
+            $add = true;
+            foreach($array2 as $arr2) {
+                if($arr['cause'] == $arr2['cause'])
+                    $add = false;
+            }
+            if($add)
+                $newArray[] = $arr;
+        }
+        return $newArray;
     }
 }

@@ -43,7 +43,7 @@ class DictoHtmlOutput {
         $data = array (
             'rules' => $rules,
             'violationIndex' => $index,
-            'violationIndexDiff' => $oldIndex ? $index - $oldIndex: $index,
+            'violationIndexDiff' => isset($oldIndex) ? $index - $oldIndex: $index,
         );
         $template = $this->view->make('index', $data);
         file_put_contents($filePath, $template->render());
@@ -52,7 +52,7 @@ class DictoHtmlOutput {
     public function setCompareFile($filePath) {
         $content = file_get_contents($filePath);
         $rules = array();
-        foreach(json_decode($content) as $ruleAsArray) {
+        foreach(json_decode($content, true) as $ruleAsArray) {
             $rule = new RuleResult();
             $rule->readFromArray($ruleAsArray);
             $rules[$rule->getRule()] = $rule;
@@ -68,7 +68,7 @@ class DictoHtmlOutput {
     {
         $index = 0;
         foreach ($rules as $rule) {
-            $index += count($rule->getViolations());
+            $index += count($rule->getErrors());
         }
         return $index;
     }

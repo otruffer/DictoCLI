@@ -1,6 +1,7 @@
 <?php
 namespace Dicto\Commands;
 
+use Dicto\DictoAPIException;
 use Dicto\DictoHtmlOutput;
 use Illuminate\Support\Traits\MacroableTrait;
 use Symfony\Component\Console\Command\Command;
@@ -67,8 +68,14 @@ class CompleteTestCommand extends DictoCommand {
         $projectFolder = $input->getArgument('project-dir');
         $projectSource = $input->getOption('projectSource') ? $input->getOption('projectSource') : './';
         $projectBinaries = $input->getOption('projectBinaries')? $input->getOption('projectSource') : './';
-        $this->dicto->createSuite($suiteName, $projectFolder, $projectSource, $projectBinaries);
-        $output->writeln("Suite $suiteName created.");
+
+        try {
+            $this->dicto->createSuite($suiteName, $projectFolder, $projectSource, $projectBinaries);
+            $output->writeln("Suite $suiteName created.");
+        } catch(DictoAPIException $exception) {
+            if($exception->getMessage() == 'Suite already exists');
+            $output->writeln("Suite $suiteName already exists. Using existing suite.");
+        }
 
         //DEFINE RULES
         $file = $input->getArgument('dicto-rules');
@@ -78,10 +85,14 @@ class CompleteTestCommand extends DictoCommand {
 
         //GENERATE RESULST
         $output->writeln("Generating Results, this may take a while...");
-        $this->dicto->generateResults($this->suiteName);
+        $summary = $this->dicto->generateResults($this->suiteName);
+        $total = $summary['summary']['rules']['total'];
+        $failed = $summary['summary']['rules']['failed'];
+        $output->writeln("Results generated. Total Rules: $total Rules Failed: $failed");
+        sleep(1);
 
         //GENERATE JSON OUTPUT
-        $output->writeln("Getting json results from server, this may take a while...");
+        $output->writeln("Getting json results from server.");
         $rules = $this->dicto->getResults($this->suiteName);
         $outputFile = $input->getArgument('results-folder').'/result.json';
         file_put_contents($outputFile, json_encode($rules));
@@ -96,10 +107,6 @@ class CompleteTestCommand extends DictoCommand {
         }
         /** @noinspection PhpInternalEntityUsedInspection */
         $html->writeHtmlFile($rules, $file, true); //Ignore the warning. It's there because $rules will be altered.
-
-        //DELETE SUITE
-        $output->writeln("Deleting used suite.");
-        $this->dicto->deleteSuite($this->suiteName);
 
         $output->writeln('finished.');
     }
