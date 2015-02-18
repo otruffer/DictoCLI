@@ -1,6 +1,7 @@
 .idea
 vendor
 composer.lock
-Dicto/Drawer/Templates/cache/*
 results/
 exampleILIAS.txt
+Dicto/Drawer/Templates/cache/*
+!Dicto/Drawer/Templates/cache/info.md
