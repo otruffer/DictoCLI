@@ -135,7 +135,6 @@ class RuleResult {
      */
     protected function error_diff($array1, $array2)
     {
-        new DictoTalker("hello");
         if($array1 == null)
             return array();
         if($array2 == null)
