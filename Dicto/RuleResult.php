@@ -24,6 +24,7 @@ class RuleResult {
      */
     public function isFailed()
     {
+        new DictoTalker();
         return $this->failed;
     }
 
