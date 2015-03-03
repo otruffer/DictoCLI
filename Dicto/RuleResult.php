@@ -16,6 +16,8 @@ class RuleResult {
     /** @var  string[][] array with of array. second array with keys "cause", "fix", "details" */
     public $errors;
 
+    public $documentation;
+
     /** @var  RuleResult */
     protected $previousResult;
 
@@ -24,6 +26,7 @@ class RuleResult {
      */
     public function isFailed()
     {
+        new DictoTalker('server');
         return $this->failed;
     }
 
@@ -34,6 +37,23 @@ class RuleResult {
     {
         $this->failed = $failed;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDocumentation()
+    {
+        return $this->documentation;
+    }
+
+    /**
+     * @param mixed $documentation
+     */
+    public function setDocumentation($documentation)
+    {
+        $this->documentation = $documentation;
+    }
+
 
     /**
      * @return string
@@ -91,7 +111,7 @@ class RuleResult {
     public function getAddedViolations() {
         if(!$this->previousResult)
             return $this->errors;
-        return $this->error_diff($this->errors, $this->previousResult->getErrors());
+        return $this->error_diff($this->getErrors(), $this->previousResult->getErrors());
     }
 
     /**
@@ -135,7 +155,6 @@ class RuleResult {
      */
     protected function error_diff($array1, $array2)
     {
-        new DictoTalker("hello");
         if($array1 == null)
             return array();
         if($array2 == null)
@@ -144,8 +163,10 @@ class RuleResult {
         foreach($array1 as $arr) {
             $add = true;
             foreach($array2 as $arr2) {
-                if($arr['cause'] == $arr2['cause'])
+                if($arr['cause'] == $arr2['cause']) {
                     $add = false;
+                    break;
+                }
             }
             if($add)
                 $newArray[] = $arr;
