@@ -185,6 +185,7 @@ class DictoTalker {
             $rule = new RuleResult();
             $rule->setFailed($jsonRule['failed'] == 'true');
             $rule->setRule($jsonRule['value']);
+            $rule->setDocumentation($jsonRule['documentation']);
             $subrule = array_pop($jsonRule["subrules"]);
             $rule->setTestedBy($subrule['testedBy']);
             if(array_key_exists('errors', $subrule))

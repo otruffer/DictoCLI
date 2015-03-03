@@ -78,8 +78,13 @@
                     @endif
                     <i class="lightning icon"></i>
                 </div>
+                @if($rule->getDocumentation())
+                    <div class="dictoOpenable ui message">
+                        {{ nl2br($rule->getDocumentation()) }}
+                    </div>
+                @endif
                 <div class="dictoOpenable">
-                    @if($rule->hasPreviousResult() && $rule->getAddedViolations())
+                    @if($rule->getAddedViolations())
                         <h4>Newly Introduced Violations</h4>
                         <ul class="ui list">
                             @foreach( $rule->getAddedViolations() as $violation)
