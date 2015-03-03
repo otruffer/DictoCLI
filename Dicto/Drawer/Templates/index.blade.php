@@ -27,9 +27,15 @@
     <div class="right aligned two wide column">
         <div class="ui label">
             Index
-            <div class="detail">{{$violationIndex}}</div>
+            <div class="detail"
+                 data-title="Violation Index"
+                 data-content="This is the total number of violations over all rules.">
+                {{$violationIndex}}
+            </div>
         </div>
-        <div class="ui label @if($violationIndexDiff > 0) {{"red"}} @elseif($violationIndexDiff < 0) {{"green"}} @endif">
+        <div class="ui label @if($violationIndexDiff > 0) {{"red"}} @elseif($violationIndexDiff < 0) {{"green"}} @endif"
+             data-title="Violation Diff"
+             data-content="How many architectural violations are resolved and how many added compared to the previous build.">
             @if($violationIndexDiff > 0) + @endif
             @if($violationIndexDiff == 0) +/- @endif
             {{$violationIndexDiff}}
@@ -46,14 +52,18 @@
 
                         <div class="content">
                             {{ $rule->getRule() }}
-                            <div class="ui label">
+                            <div class="ui label"
+                                 data-title="Violation Index"
+                                 data-content="The currently existing number of violations for this rule.">
                                 {{ count($rule->getErrors()) }}
                             </div>
                         </div>
                     </h3>
                 </a>
 
-                <div class="ui top right attached label @if(count($rule->getAddedViolations()) > 0) {{"red"}} @elseif(count($rule->getResolvedViolations())) {{"green"}} @endif dictoOpen pointerCursor">
+                <div class="ui top right attached label @if(count($rule->getAddedViolations()) > 0) {{"red"}} @elseif(count($rule->getResolvedViolations())) {{"green"}} @endif dictoOpen pointerCursor"
+                     data-title="Violation Diff"
+                     data-content="How many architectural violations are resolved and how many added compared to the previous build regarding this rule.">
                     @if(count($rule->getAddedViolations()))
                         + {{ count($rule->getAddedViolations()) }}
                         &nbsp;
