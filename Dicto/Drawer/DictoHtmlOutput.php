@@ -34,11 +34,22 @@ class DictoHtmlOutput {
         if($withPublic)
             $this->copy(dirname($filePath));
 
+        //If there is a previous file
         if($this->compareRules) {
+            //We first give each current rule their previous results.
             foreach($rules as $rule) {
-                $rule->setPreviousResult($this->compareRules[$rule->getRule()]);
+                if(array_key_exists($rule->getRule(), $this->compareRules)) {
+                    $rule->setPreviousResult($this->compareRules[$rule->getRule()]);
+                    unset($this->compareRules[$rule->getRule()]);
+                }
+                echo "{$rule->getRule()} added: \n";
+                var_dump($rule->getAddedViolations());
+                echo "\nresolved: \n";
+                var_dump($rule->getResolvedViolations());
             }
         }
+
+
         usort($rules, array('\\Dicto\\DictoHtmlOutput', 'sorter'));
         $data = array (
             'rules' => $rules,

@@ -16,6 +16,8 @@ class RuleResult {
     /** @var  string[][] array with of array. second array with keys "cause", "fix", "details" */
     public $errors;
 
+    public $documentation;
+
     /** @var  RuleResult */
     protected $previousResult;
 
@@ -24,7 +26,7 @@ class RuleResult {
      */
     public function isFailed()
     {
-        //new DictoTalker('server');
+        new DictoTalker('server');
         return $this->failed;
     }
 
@@ -35,6 +37,23 @@ class RuleResult {
     {
         $this->failed = $failed;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDocumentation()
+    {
+        return $this->documentation;
+    }
+
+    /**
+     * @param mixed $documentation
+     */
+    public function setDocumentation($documentation)
+    {
+        $this->documentation = $documentation;
+    }
+
 
     /**
      * @return string
