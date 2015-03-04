@@ -52,8 +52,37 @@ class DictoHtmlOutput {
             'violationIndex' => $index,
             'violationIndexDiff' => isset($oldIndex) ? $index - $oldIndex: $index,
         );
+
+        echo "##teamcity[buildStatisticValue key='<dicto.violationIndex>' value='".$index."']\n";
+        echo "##teamcity[buildStatisticValue key='<dicto.addedVionaltions>' value='".$this->getAddedViolationIndex($rules)."']\n";
+        echo "##teamcity[buildStatisticValue key='<dicto.removedViolations>' value='".$this->getResolvedViolationIndex($rules)."']\n";
+
         $template = $this->view->make('index', $data);
         file_put_contents($filePath, $template->render());
+    }
+
+    /**
+     * @param $rules RuleResult[]
+     * @return int
+     */
+    protected function getAddedViolationIndex($rules) {
+        $index = 0;
+        foreach($rules as $rule) {
+            $index += count($rule->getAddedViolations());
+        }
+        return $index;
+    }
+
+    /**
+     * @param $rules RuleResult[]
+     * @return int
+     */
+    protected function getResolvedViolationIndex($rules) {
+        $index = 0;
+        foreach($rules as $rule) {
+            $index += count($rule->getResolvedViolations());
+        }
+        return $index;
     }
 
     public function setCompareFile($filePath) {
