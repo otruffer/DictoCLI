@@ -42,10 +42,6 @@ class DictoHtmlOutput {
                     $rule->setPreviousResult($this->compareRules[$rule->getRule()]);
                     unset($this->compareRules[$rule->getRule()]);
                 }
-                echo "{$rule->getRule()} added: \n";
-                var_dump($rule->getAddedViolations());
-                echo "\nresolved: \n";
-                var_dump($rule->getResolvedViolations());
             }
         }
 

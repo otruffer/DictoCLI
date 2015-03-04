@@ -27,21 +27,23 @@
     <div class="right aligned two wide column">
         <div class="ui label">
             Index
-            <div class="detail"
-                 data-title="Violation Index"
-                 data-content="This is the total number of violations over all rules.">
+            <div class="detail">
                 {{$violationIndex}}
             </div>
         </div>
-        <div class="ui label @if($violationIndexDiff > 0) {{"red"}} @elseif($violationIndexDiff < 0) {{"green"}} @endif"
-             data-title="Violation Diff"
-             data-content="How many architectural violations are resolved and how many added compared to the previous build.">
+        <div class="ui small popup">
+            This is the total number of violations over all rules.
+        </div>
+        <div class="ui label @if($violationIndexDiff > 0) {{"red"}} @elseif($violationIndexDiff < 0) {{"green"}} @endif">
             @if($violationIndexDiff > 0) + @endif
             @if($violationIndexDiff == 0) +/- @endif
             {{$violationIndexDiff}}
             &nbsp;
             <i class="lightning icon"></i>
         </div>
+    </div>
+    <div class="ui small popup">
+        How many architectural violations are resolved and how many added compared to the previous build.
     </div>
     <div class="ten wide column">
         @foreach($rules as $rule)
@@ -52,18 +54,20 @@
 
                         <div class="content">
                             {{ $rule->getRule() }}
-                            <div class="ui label"
-                                 data-title="Violation Index"
-                                 data-content="The currently existing number of violations for this rule.">
+                            <div class="ui label">
                                 {{ count($rule->getErrors()) }}
+                            </div>
+                            <div class="ui small popup">
+                                The currently existing number of violations for this rule.
                             </div>
                         </div>
                     </h3>
                 </a>
 
-                <div class="ui top right attached label @if(count($rule->getAddedViolations()) > 0) {{"red"}} @elseif(count($rule->getResolvedViolations())) {{"green"}} @endif dictoOpen pointerCursor"
-                     data-title="Violation Diff"
-                     data-content="How many architectural violations are resolved and how many added compared to the previous build regarding this rule.">
+                <div class="ui top right attached label @if(count($rule->getAddedViolations()) > 0) {{"red"}} @elseif(count($rule->getResolvedViolations())) {{"green"}} @endif dictoOpen pointerCursor">
+                    <div class="ui small popup">
+                        How many architectural violations are resolved and how many added compared to the previous build regarding this rule.
+                    </div>
                     @if(count($rule->getAddedViolations()))
                         + {{ count($rule->getAddedViolations()) }}
                         &nbsp;
@@ -80,7 +84,7 @@
                 </div>
                 @if($rule->getDocumentation())
                     <div class="dictoOpenable ui message">
-                        {{ nl2br($rule->getDocumentation()) }}
+                        {{ nl2br($rule->getDocumentationHTML()) }}
                     </div>
                 @endif
                 <div class="dictoOpenable">
