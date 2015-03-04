@@ -2,8 +2,8 @@
 <html>
 <head>
     <title>DICTō</title>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.address/1.6/jquery.address.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.address/1.6/jquery.address.min.js"></script>
     <link rel="stylesheet" type="text/css" href="Public/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="Public/dicto.css">
     <script src="Public/semantic.min.js"></script>
