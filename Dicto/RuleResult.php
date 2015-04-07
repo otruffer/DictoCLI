@@ -21,6 +21,7 @@ class RuleResult {
     /** @var  RuleResult */
     protected $previousResult;
 
+
     /**
      * @return boolean
      */

@@ -92,7 +92,7 @@
                         <h4>Newly Introduced Violations</h4>
                         <ul class="ui list">
                             @foreach( $rule->getAddedViolations() as $violation)
-                                <li>{{{ $violation['cause'] }}}</li>
+                                <li>{{{ $violation['details'] }}}</li>
                             @endforeach
                         </ul>
                     @endif
@@ -101,7 +101,7 @@
                         <h4>Resolved Violations</h4>
                         <ul class="ui list">
                             @foreach( $rule->getResolvedViolations() as $violation)
-                                <li>{{{ $violation['cause'] }}}</li>
+                                <li>{{{ $violation['details'] }}}</li>
                             @endforeach
                         </ul>
                     @endif
@@ -113,7 +113,7 @@
                         </h4>
                         <ul class="ui list dictoOpenable">
                             @foreach( $rule->getErrors() as $error)
-                                <li>{{{ $error['cause'] }}}</li>
+                                <li>{{{ $error['details'] }}}</li>
                             @endforeach
                         </ul>
                     @else

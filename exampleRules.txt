@@ -1,6 +1,11 @@
-RuleResult = PhpClass with name:"Dicto\\RuleResult"
-DictoTalker = PhpClass with name:"Dicto\\DictoTalker"
+RuleResult= PhpClass with name:"Dicto\RuleResult"
+DictoTalker= PhpClass with name:"Dicto\DictoTalker"
+WholeCodeBase = PhpClass with name:"*"
+ExitOrDie = PhpClass with name:"exit/die"
 
 RuleResult cannot depend on DictoTalker
 DictoTalker must depend on RuleResult
 only DictoTalker can depend on DictoTalker
+only DictoTalker can depend on ExitOrDie
+DictoTalker must depend on ExitOrDie
+RuleResult cannot depend on ExitOrDie
