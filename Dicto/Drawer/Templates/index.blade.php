@@ -92,7 +92,11 @@
                         <h4>Newly Introduced Violations</h4>
                         <ul class="ui list">
                             @foreach( $rule->getAddedViolations() as $violation)
-                                <li>{{{ $violation['details'] }}}</li>
+                                <li>{{{ $violation['details'] }}}
+                                    <div>
+                                        {{{ nl2br($violation['fix']) }}}
+                                    </div>
+                                </li>
                             @endforeach
                         </ul>
                     @endif
@@ -101,7 +105,11 @@
                         <h4>Resolved Violations</h4>
                         <ul class="ui list">
                             @foreach( $rule->getResolvedViolations() as $violation)
-                                <li>{{{ $violation['details'] }}}</li>
+                                <li>{{{ $violation['details'] }}}
+                                    <div>
+                                        {{{ nl2br($violation['fix']) }}}
+                                    </div>
+                                </li>
                             @endforeach
                         </ul>
                     @endif
@@ -113,7 +121,11 @@
                         </h4>
                         <ul class="ui list dictoOpenable">
                             @foreach( $rule->getErrors() as $error)
-                                <li>{{{ $error['details'] }}}</li>
+                                <li>{{{ $error['details'] }}}
+                                    <div>
+                                        {{{ nl2br($violation['fix']) }}}
+                                    </div>
+                                </li>
                             @endforeach
                         </ul>
                     @else
