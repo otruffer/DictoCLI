@@ -37,3 +37,14 @@ body {
 .ui.grid {
     margin: 0;
 }
+
+div.fix {
+    font-size: 12px;
+    padding-left: 5px;
+    color: #797979;
+    display: none;
+}
+
+li.violation {
+    cursor: pointer;
+}

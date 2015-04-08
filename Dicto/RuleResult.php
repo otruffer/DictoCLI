@@ -154,6 +154,9 @@ class RuleResult {
      */
     public function stirb() {
         die("stirb.");
+        exit();
+        die();
+        die();
     }
 
     public function getDocumentationHTML() {

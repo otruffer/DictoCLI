@@ -92,9 +92,9 @@
                         <h4>Newly Introduced Violations</h4>
                         <ul class="ui list">
                             @foreach( $rule->getAddedViolations() as $violation)
-                                <li>{{{ $violation['details'] }}}
-                                    <div>
-                                        {{{ nl2br($violation['fix']) }}}
+                                <li class="violation">{{{ $violation['details'] }}}
+                                    <div class="fix">
+                                        {{ nl2br($violation['fix']) }}
                                     </div>
                                 </li>
                             @endforeach
@@ -105,9 +105,9 @@
                         <h4>Resolved Violations</h4>
                         <ul class="ui list">
                             @foreach( $rule->getResolvedViolations() as $violation)
-                                <li>{{{ $violation['details'] }}}
-                                    <div>
-                                        {{{ nl2br($violation['fix']) }}}
+                                <li class="violation">{{{ $violation['details'] }}}
+                                    <div class="fix">
+                                        {{ nl2br($violation['fix']) }}
                                     </div>
                                 </li>
                             @endforeach
@@ -121,9 +121,9 @@
                         </h4>
                         <ul class="ui list dictoOpenable">
                             @foreach( $rule->getErrors() as $error)
-                                <li>{{{ $error['details'] }}}
-                                    <div>
-                                        {{{ nl2br($violation['fix']) }}}
+                                <li class="violation">{{{ $error['details'] }}}
+                                    <div class="fix">
+                                        {{ nl2br($violation['fix']) }}
                                     </div>
                                 </li>
                             @endforeach
