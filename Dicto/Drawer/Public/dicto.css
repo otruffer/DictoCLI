@@ -22,16 +22,23 @@
    content: "";
 }
 
-.dictoOpenable {
+div.dictoOpenable.ui.grid {
   display: none;
 }
 
 .pointerCursor {
   cursor: pointer;
 }
+.violationsContainer h4 {
+    margin-top: 0;
+}
 
 body {
     background: #ffffff;
+}
+
+div.adddedViolations, div.resolvedViolations {
+    margin-bottom: 20px;
 }
 
 .ui.grid {
@@ -47,4 +54,12 @@ div.fix {
 
 li.violation {
     cursor: pointer;
+}
+
+div.allViolations {
+    display: none;
+}
+
+div.resolvedViolations {
+    display: none;
 }

@@ -54,9 +54,6 @@
 
                         <div class="content">
                             {{ $rule->getRule() }}
-                            <div class="ui label">
-                                {{ count($rule->getErrors()) }}
-                            </div>
                             <div class="ui small popup">
                                 The currently existing number of violations for this rule.
                             </div>
@@ -66,7 +63,8 @@
 
                 <div class="ui top right attached label @if(count($rule->getAddedViolations()) > 0) {{"red"}} @elseif(count($rule->getResolvedViolations())) {{"green"}} @endif dictoOpen pointerCursor">
                     <div class="ui small popup">
-                        How many architectural violations are resolved and how many added compared to the previous build regarding this rule.
+                        How many architectural violations are resolved and how many added compared to the previous build
+                        regarding this rule.
                     </div>
                     @if(count($rule->getAddedViolations()))
                         + {{ count($rule->getAddedViolations()) }}
@@ -87,52 +85,90 @@
                         {{ nl2br($rule->getDocumentationHTML()) }}
                     </div>
                 @endif
-                <div class="dictoOpenable">
-                    @if($rule->getAddedViolations())
-                        <h4>Newly Introduced Violations</h4>
-                        <ul class="ui list">
-                            @foreach( $rule->getAddedViolations() as $violation)
-                                <li class="violation">{{{ $violation['details'] }}}
-                                    <div class="fix">
-                                        {{ nl2br($violation['fix']) }}
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
 
-                    @if($rule->getResolvedViolations())
-                        <h4>Resolved Violations</h4>
-                        <ul class="ui list">
-                            @foreach( $rule->getResolvedViolations() as $violation)
-                                <li class="violation">{{{ $violation['details'] }}}
-                                    <div class="fix">
-                                        {{ nl2br($violation['fix']) }}
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
+                <div class="dictoOpenable ui grid violationsContainer">
+                    <div class="four wide column">
+                        <div class="ui vertical menu">
+                            <a class="item active addedViolations">
+                                Added Violations
+                                <div class="ui label">{{count($rule->getAddedViolations())}}</div>
+                            </a>
+                            <a class="item resolvedViolations">
+                                Resolved Violations
+                                <div class="ui label">{{count($rule->getResolvedViolations())}}</div>
+                            </a>
+                            <a class="item allViolations">
+                                All Violations
+                                <div class="ui label">{{count($rule->getErrors())}}</div>
+                            </a>
 
-                    @if( count($rule->getErrors()) )
-                        <h4 class="dictoOpen">
-                            <i class="dropdown icon"></i>
-                            All Current Violations
-                        </h4>
-                        <ul class="ui list dictoOpenable">
-                            @foreach( $rule->getErrors() as $error)
-                                <li class="violation">{{{ $error['details'] }}}
-                                    <div class="fix">
-                                        {{ nl2br($violation['fix']) }}
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @else
-                        <h4>
-                            This rule holds for the hole codebase. Congratulations!
-                        </h4>
-                    @endif
+                            <div class="item">
+                                <div class="ui transparent icon input">
+                                    <input class="search" type="text" placeholder="Search...">
+                                    <i class="search icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="twelve wide column">
+                        <div class="adddedViolations">
+                            @if($rule->getAddedViolations())
+                                <h4>Newly Introduced Violations</h4>
+                                <ul class="ui list">
+                                    @foreach( $rule->getAddedViolations() as $violation)
+                                        <li class="violation">{{{ $violation['details'] }}}
+                                            <div class="fix">
+                                                {{ nl2br($violation['fix']) }}
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <h4>
+                                    No added violations
+                                </h4>
+                            @endif
+                        </div>
+                        <div class="resolvedViolations">
+                            @if($rule->getResolvedViolations())
+                                <h4>Resolved Violations</h4>
+                                <ul class="ui list">
+                                    @foreach( $rule->getResolvedViolations() as $violation)
+                                        <li class="violation">{{{ $violation['details'] }}}
+                                            <div class="fix">
+                                                {{ nl2br($violation['fix']) }}
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <h4>
+                                    No resolved violations.
+                                </h4>
+                            @endif
+                        </div>
+                        <div class="allViolations">
+                            @if( count($rule->getErrors()) )
+                                <h4>
+                                    All Current Violations
+                                </h4>
+                                <ul class="ui list">
+                                    @foreach( $rule->getErrors() as $error)
+                                        <li class="violation">{{{ $error['details'] }}}
+                                            <div class="fix">
+                                                {{ nl2br($violation['fix']) }}
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <h4>
+                                    This rule holds for the hole codebase. Congratulations!
+                                </h4>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         @endforeach
