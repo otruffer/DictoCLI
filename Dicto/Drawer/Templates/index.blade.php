@@ -12,34 +12,52 @@
 <body>
 
 <div class="ui centered grid">
-    <div class="eight wide column">
-        <h1 class="ui header">
+    <div class="six wide column">
+        <h1 class="ui header dictoOpen">
             <i class="settings icon"></i>
 
             <div class="content">
                 Dicto
                 <div class="sub header">
-                    Automated Architecutre Tests. With emphasis on the Diff.
+                    Automated Architectural Tests. With emphasis on the Diff. <a href="#"> What's this? </a>
                 </div>
             </div>
         </h1>
+        <div class="dictoOpenable description">
+            <p>
+                <a href="http://scg.unibe.ch/dicto/"> Dicto </a> is a simple declarative language for specifying architectural rules which can be automatically verified using off-the-shelf tools.
+                Displayed here are the results of the latest build. Each rule highlights if there are any added violations of the rules compared to the previous run or if any violations got resolved.
+                Additionally you find a list of all current violations and a short description of why the rule is in place.
+            </p>
+            <p>
+                Dicto is integrated into the continuous integration server of ILIAS with the objective to get some standardized feedback concerning the architecture of the software. For any proposals for the layout, questions, requests for removal or addition of rules please contact the <a href="http://www.ilias.de/docu/goto_docu_grp_4497.html"> SIG Refactoring </a> or write an <a href="mailto:ot@studer-raimann.ch">E-Mail</a>.
+            </p>
+        </div>
     </div>
-    <div class="right aligned two wide column">
-        <div class="ui label">
-            Index
-            <div class="detail">
+    <div class="right aligned four wide column">
+        <div class="ui tiny statistic">
+            <div class="value">
                 {{$violationIndex}}
             </div>
+            <div class="label">
+                Total Violations
+            </div>
         </div>
-        <div class="ui small popup">
-            This is the total number of violations over all rules.
+        <div class="ui tiny statistic red">
+            <div class="value">
+                {{$addedViolationIndex}}
+            </div>
+            <div class="label">
+                Added Violations
+            </div>
         </div>
-        <div class="ui label @if($violationIndexDiff > 0) {{"red"}} @elseif($violationIndexDiff < 0) {{"green"}} @endif">
-            @if($violationIndexDiff > 0) + @endif
-            @if($violationIndexDiff == 0) +/- @endif
-            {{$violationIndexDiff}}
-            &nbsp;
-            <i class="lightning icon"></i>
+        <div class="ui tiny statistic green">
+            <div class="value">
+                {{$resolvedViolationIndex}}
+            </div>
+            <div class="label">
+                Resolved Violations
+            </div>
         </div>
     </div>
     <div class="ui small popup">
@@ -80,13 +98,14 @@
                     @endif
                     <i class="lightning icon"></i>
                 </div>
-                @if($rule->getDocumentation())
-                    <div class="dictoOpenable ui message">
-                        {{ nl2br($rule->getDocumentationHTML()) }}
-                    </div>
-                @endif
+
 
                 <div class="dictoOpenable ui grid violationsContainer">
+                    @if($rule->getDocumentation())
+                        <div class="ui message">
+                            {{ nl2br($rule->getDocumentationHTML()) }}
+                        </div>
+                    @endif
                     <div class="four wide column">
                         <div class="ui vertical menu">
                             <a class="item active addedViolations">
@@ -164,7 +183,7 @@
                                 </ul>
                             @else
                                 <h4>
-                                    This rule holds for the hole codebase. Congratulations!
+                                    This rule holds for the whole codebase. Congratulations!
                                 </h4>
                             @endif
                         </div>

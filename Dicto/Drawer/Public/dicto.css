@@ -22,7 +22,7 @@
    content: "";
 }
 
-div.dictoOpenable.ui.grid {
+div.dictoOpenable.ui.grid, div.dictoOpenable.description {
   display: none;
 }
 

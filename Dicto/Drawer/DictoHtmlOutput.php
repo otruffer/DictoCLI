@@ -45,17 +45,21 @@ class DictoHtmlOutput {
             }
         }
 
+        $addedViolationIndex = $this->getAddedViolationIndex($rules);
+        $resolvedViolationIndex = $this->getResolvedViolationIndex($rules);
 
         usort($rules, array('\\Dicto\\DictoHtmlOutput', 'sorter'));
         $data = array (
             'rules' => $rules,
             'violationIndex' => $index,
+            'addedViolationIndex' => $addedViolationIndex,
+            'resolvedViolationIndex' => $resolvedViolationIndex,
             'violationIndexDiff' => isset($oldIndex) ? $index - $oldIndex: $index,
         );
 
         echo "##teamcity[buildStatisticValue key='dicto.violationIndex' value='".$index."']\n";
-        echo "##teamcity[buildStatisticValue key='dicto.addedVionaltions' value='".$this->getAddedViolationIndex($rules)."']\n";
-        echo "##teamcity[buildStatisticValue key='dicto.removedViolations' value='".$this->getResolvedViolationIndex($rules)."']\n";
+        echo "##teamcity[buildStatisticValue key='dicto.addedVionaltions' value='".$addedViolationIndex."']\n";
+        echo "##teamcity[buildStatisticValue key='dicto.removedViolations' value='".$resolvedViolationIndex."']\n";
 
         $template = $this->view->make('index', $data);
         file_put_contents($filePath, $template->render());
