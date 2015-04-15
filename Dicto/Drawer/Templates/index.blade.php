@@ -11,9 +11,9 @@
 </head>
 <body>
 
-<div class="ui centered grid">
-    <div class="six wide column">
-        <h1 class="ui header dictoOpen">
+<div class="ui centered grid main">
+    <div class="ten wide column dictoOpenInline">
+        <h1 class="ui header">
             <i class="settings icon"></i>
 
             <div class="content">
@@ -23,18 +23,10 @@
                 </div>
             </div>
         </h1>
-        <div class="dictoOpenable description">
-            <p>
-                <a href="http://scg.unibe.ch/dicto/"> Dicto </a> is a simple declarative language for specifying architectural rules which can be automatically verified using off-the-shelf tools.
-                Displayed here are the results of the latest build. Each rule highlights if there are any added violations of the rules compared to the previous run or if any violations got resolved.
-                Additionally you find a list of all current violations and a short description of why the rule is in place.
-            </p>
-            <p>
-                Dicto is integrated into the continuous integration server of ILIAS with the objective to get some standardized feedback concerning the architecture of the software. For any proposals for the layout, questions, requests for removal or addition of rules please contact the <a href="http://www.ilias.de/docu/goto_docu_grp_4497.html"> SIG Refactoring </a> or write an <a href="mailto:ot@studer-raimann.ch">E-Mail</a>.
-            </p>
-        </div>
     </div>
-    <div class="right aligned four wide column">
+
+
+    <div class="right aligned six wide column">
         <div class="ui tiny statistic">
             <div class="value">
                 {{$violationIndex}}
@@ -60,10 +52,19 @@
             </div>
         </div>
     </div>
-    <div class="ui small popup">
-        How many architectural violations are resolved and how many added compared to the previous build.
+
+    <div class="dictoOpenable description hidden sixteen wide column">
+        <p>
+            <a href="http://scg.unibe.ch/dicto/"> Dicto </a> is a simple declarative language for specifying architectural rules which can be automatically verified using off-the-shelf tools.
+            Displayed here are the results of the latest build. Each rule highlights if there are any added violations of the rules compared to the previous run or if any violations got resolved.
+            Additionally you find a list of all current violations and a short description of why the rule is in place.
+        </p>
+        <p>
+            Dicto is integrated into the continuous integration server of ILIAS with the objective to get some standardized feedback concerning the architecture of the software. For any proposals for the layout, questions, requests for removal or addition of rules please contact the <a href="http://www.ilias.de/docu/goto_docu_grp_4497.html"> SIG Refactoring </a> or write an <a href="mailto:ot@studer-raimann.ch">E-Mail</a>.
+        </p>
     </div>
-    <div class="ten wide column">
+
+    <div class="sixteen wide column">
         @foreach($rules as $rule)
             <div class="ui segment">
                 <a class="ui ribbon label dictoOpen">

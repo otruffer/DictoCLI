@@ -4,6 +4,11 @@ $(document).ready(function(){
     $(this).siblings('.dictoOpenable').toggle();
   });
 
+    $('.dictoOpenInline').click(function(event){
+        event.preventDefault();
+        $(this).siblings('.dictoOpenable').toggleClass('hidden');
+    });
+
     $('li.violation').click(function(event) {
         event.preventDefault();
         $(this).children('div.fix').toggle();

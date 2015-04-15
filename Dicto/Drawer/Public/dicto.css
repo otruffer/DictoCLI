@@ -22,7 +22,17 @@
    content: "";
 }
 
-div.dictoOpenable.ui.grid, div.dictoOpenable.description {
+div.ui.centered.grid.main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 10px;
+}
+
+.ui.grid>div.dictoOpenable.description.hidden.column:not(.row) {
+    display: none;
+}
+
+div.dictoOpenable.ui.grid, div.dictoOpenable.description.column {
   display: none;
 }
 
