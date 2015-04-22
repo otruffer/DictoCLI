@@ -1,7 +1,7 @@
-RuleResult= PhpClass with name:"Dicto\RuleResult"
-DictoTalker= PhpClass with name:"Dicto\DictoTalker"
-WholeCodeBase = PhpClass with name:"*"
-ExitOrDie = PhpClass with name:"exit/die"
+RuleResult= PhpDependency with name:"Dicto\RuleResult"
+DictoTalker= PhpDependency with name:"Dicto\DictoTalker"
+WholeCodeBase = PhpDependency with name:"*"
+ExitOrDie = PhpDependency with name:"exit/die"
 
 /**
 * Some documentation for testing.
