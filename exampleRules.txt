@@ -3,6 +3,9 @@ DictoTalker= PhpClass with name:"Dicto\DictoTalker"
 WholeCodeBase = PhpClass with name:"*"
 ExitOrDie = PhpClass with name:"exit/die"
 
+/**
+* Some documentation for testing.
+*/
 RuleResult cannot depend on DictoTalker
 DictoTalker must depend on RuleResult
 only DictoTalker can depend on DictoTalker

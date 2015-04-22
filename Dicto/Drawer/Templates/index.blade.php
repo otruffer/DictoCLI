@@ -73,9 +73,6 @@
 
                         <div class="content">
                             {{ $rule->getRule() }}
-                            <div class="ui small popup">
-                                The currently existing number of violations for this rule.
-                            </div>
                         </div>
                     </h3>
                 </a>
@@ -103,7 +100,7 @@
 
                 <div class="dictoOpenable ui grid violationsContainer">
                     @if($rule->getDocumentation())
-                        <div class="ui message">
+                        <div class="ui message sixteen wide column">
                             {{ nl2br($rule->getDocumentationHTML()) }}
                         </div>
                     @endif
