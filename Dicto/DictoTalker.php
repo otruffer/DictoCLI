@@ -296,5 +296,4 @@ class DictoTalker {
     {
         $this->https = $https;
     }
-
 }

@@ -12,7 +12,7 @@
 <body>
 
 <div class="ui centered grid main">
-    <div class="ten wide column dictoOpenInline">
+    <div class="sixteen wide column dictoOpenInline">
         <h1 class="ui header">
             <i class="settings icon"></i>
 
@@ -25,7 +25,13 @@
         </h1>
     </div>
 
-
+    <div class="ten wide column">
+        <ul>
+            <li>Repository: <a href="{{$githubRepo}}">{{$githubRepo}}</a></li>
+            <li>Commit: <a href="{{$githubCommitURL}}">{{$githubCommit}}</a></li>
+            <li>Compared to Commit: <a href="{{$githubCompareURL}}">{{$githubCompare}}</a></li>
+        </ul>
+    </div>
     <div class="right aligned six wide column">
         <div class="ui tiny statistic">
             <div class="value">

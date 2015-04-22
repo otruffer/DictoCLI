@@ -46,8 +46,27 @@ class CompleteTestCommand extends DictoCommand {
                 null,
                 InputOption::VALUE_REQUIRED,
                 "The relative path to the binaries."
-            );
+            )
+            ->addOption(
+                'githubRepo',
+                null,
+                InputOption::VALUE_REQUIRED,
+                "Github URL."
+            )
+            ->addOption(
+                'commit',
+                null,
+                InputOption::VALUE_REQUIRED,
+                "Current Github commit id."
+            )
+            ->addOption(
+                'compareCommit',
+                null,
+                InputOption::VALUE_REQUIRED,
+                "Compared github commit id."
+            )
         ;
+
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -104,6 +123,15 @@ class CompleteTestCommand extends DictoCommand {
         $html = new DictoHtmlOutput();
         if($compare = $input->getOption('compare')) {
             $html->setCompareFile($compare);
+        }
+        if($githubRepo = $input->getOption('githubRepo')) {
+            $html->setGithubRepo($githubRepo);
+        }
+        if($commit = $input->getOption('commit')) {
+            $html->setCommit($commit);
+        }
+        if($compareCommit = $input->getOption('compareCommit')) {
+            $html->setCompareCommit($compareCommit);
         }
         /** @noinspection PhpInternalEntityUsedInspection */
         $html->writeHtmlFile($rules, $file, true); //Ignore the warning. It's there because $rules will be altered.

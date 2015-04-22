@@ -15,6 +15,22 @@ class DictoHtmlOutput {
     /** @var  RuleResult[] */
     protected $compareRules;
 
+    /**
+     * @var string
+     */
+    protected $githubRepo;
+
+    /**
+     * @var string
+     */
+    protected $commit;
+
+    /**
+     * @var string
+     */
+    protected $compareCommit;
+
+
     public function __construct() {
         $this->blade = new \Philo\Blade\Blade(array(__DIR__."/Templates/"), __DIR__.'/Templates/cache');
         $this->view = $this->blade->view();
@@ -56,6 +72,17 @@ class DictoHtmlOutput {
             'resolvedViolationIndex' => $resolvedViolationIndex,
             'violationIndexDiff' => isset($oldIndex) ? $index - $oldIndex: $index,
         );
+
+        if($this->getGithubRepo()) {
+            $data['githubRepo'] = $this->getGithubRepo();
+            $data['githubCommitURL'] = $this->getCommitURL();
+            $data['githubCommit'] = $this->getCommit();
+        }
+
+        if($this->getCompareCommit()) {
+            $data['githubCompare'] = $this->getCompareCommit();
+            $data['githubCompareURL'] = $this->getCompareCommitURL();
+        }
 
         echo "##teamcity[buildStatisticValue key='dicto.violationIndex' value='".$index."']\n";
         echo "##teamcity[buildStatisticValue key='dicto.addedVionaltions' value='".$addedViolationIndex."']\n";
@@ -161,5 +188,71 @@ class DictoHtmlOutput {
                 $this->rcopy($f->getRealPath(), "$dest/$f");
             }
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommit()
+    {
+        return $this->commit;
+    }
+
+    /**
+     * @param string $commit
+     */
+    public function setCommit($commit)
+    {
+        $this->commit = $commit;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompareCommit()
+    {
+        return $this->compareCommit;
+    }
+
+    /**
+     * @param string $compareCommit
+     */
+    public function setCompareCommit($compareCommit)
+    {
+        $this->compareCommit = $compareCommit;
+    }
+
+    protected function hasCompareCommit() {
+        isset($this->compareCommit);
+    }
+
+    /**
+     * @return string
+     */
+    public function getGithubRepo()
+    {
+        return $this->githubRepo;
+    }
+
+    /**
+     * @param string $githubRepo
+     */
+    public function setGithubRepo($githubRepo)
+    {
+        $this->githubRepo = $githubRepo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommitURL() {
+        return $this->getGithubRepo()."/commit/".$this->getCommit();
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompareCommitURL() {
+        return $this->getGithubRepo()."/compare/".$this->getCompareCommit()."...".$this->getCommit();
     }
 }
