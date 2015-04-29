@@ -16,6 +16,7 @@ require_once __DIR__.'/Commands/GenerateResultsCommand.php';
 require_once __DIR__.'/Commands/ListResultsCommand.php';
 require_once __DIR__.'/Commands/HTMLOutputCommand.php';
 require_once __DIR__.'/Commands/CompleteCheckCommand.php';
+require_once __DIR__.'/Commands/SendMailsToCommitersCommand.php';
 
 use Dicto\Commands\HTMLOutputCommand;
 use Symfony\Component\Console\Application;
@@ -27,6 +28,7 @@ use Dicto\Commands\ListRulesCommand;
 use Dicto\Commands\GenerateResultsCommand;
 use Dicto\Commands\ListResultsCommand;
 use Dicto\Commands\CompleteTestCommand;
+use Dicto\Commands\SendMailsToCommitersCommand;
 
 $application = new Application();
 $application->add(new ListSuitesCommand());
@@ -38,5 +40,6 @@ $application->add(new GenerateResultsCommand());
 $application->add(new ListResultsCommand());
 $application->add(new HTMLOutputCommand());
 $application->add(new CompleteTestCommand());
+$application->add(new SendMailsToCommitersCommand());
 
 $application->run();
