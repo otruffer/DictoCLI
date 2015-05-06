@@ -149,16 +149,6 @@ class RuleResult {
         }
     }
 
-    /**
-     *
-     */
-    public function stirb() {
-        die("stirb.");
-        exit();
-        die();
-        die();
-    }
-
     public function getDocumentationHTML() {
         $text = preg_replace('/http:\/\/([a-z0-9_.\/\-]+)/i', '<a href="http://$1"     target="_blank">http://$1</a>', $this->getDocumentation());
         $text = preg_replace('/https:\/\/([a-z0-9_.\/\-]+)/i', '<a href="https://$1"     target="_blank">https://$1</a>', $text);

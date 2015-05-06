@@ -6,10 +6,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SendMailsToCommitersCommand extends Command{
+class SendMailsToCommitersCommand extends DictoCommand{
 
     protected function configure()
     {
+        parent::configure();
+
         $this->setName('send-mails')
             ->addArgument(
                 'commit',
@@ -28,18 +30,6 @@ class SendMailsToCommitersCommand extends Command{
                 'how many dicto violations were added.'
             )
             ->addOption(
-                'dicto-removedViolations',
-                null,
-                InputArgument::OPTIONAL,
-                'how many dicto violations were removed.'
-            )
-            ->addOption(
-                'dicto-totalViolations',
-                null,
-                InputArgument::OPTIONAL,
-                'total dicto violations.'
-            )
-            ->addOption(
                 'homepageURL',
                 null,
                 InputArgument::OPTIONAL,
@@ -52,6 +42,8 @@ class SendMailsToCommitersCommand extends Command{
     //./dicto.php send-mails 630e550d87db272463af7435e113f9eea7e51732 30e05ac617b078869930bcfe5cdbeec148d91f50 --dicto-totalViolations=1 --dicto-removedViolations=1 --dicto-addedViolations=1 --homepageURL="https://ci.studer-raimann.ch"
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        parent::execute($input, $output);
+
         //git log --pretty=oneline --format='%ae' 630e550d87db272463af7435e113f9eea7e51732...630e550d87db272463af7435e113f9eea7e51732
         $c1 = $input->getArgument('commit');
         $c2 = $input->getArgument('compareCommit');
@@ -60,9 +52,10 @@ class SendMailsToCommitersCommand extends Command{
         exec($command, $emails);
         $emails = array_unique($emails);
 
-        $total = $input->getOption('dicto-totalViolations');
-        $added = $input->getOption('dicto-addedViolations');
-        $removed = $input->getOption('dicto-removedViolations');
+        $results = $this->dicto->getResults($input->getOption("suiteName"));
+        $total = $this->calculateViolationIndex($results);
+        $added = $this->getAddedViolationIndex($results);
+        $removed = $this->getResolvedViolationIndex($results);
         $url = $input->getOption('homepageURL');
 
         $message = "
@@ -83,10 +76,47 @@ class SendMailsToCommitersCommand extends Command{
         TeamCity
         ";
 
-//        $output->writeln($message);
+        $output->writeln($message);
 
         $output->writeln(var_export($emails, true));
 //        mail(implode(', ', $emails), "TeamCity Build", $message);
-        mail("Oskar Truffer <ot@studer-raimann.ch>", "TeamCity Build", $message);
+//        mail("Oskar Truffer <ot@studer-raimann.ch>", "TeamCity Build", $message);
+    }
+
+    /**
+     * @param $rules \Dicto\RuleResult[]
+     * @return int
+     */
+    protected function getAddedViolationIndex($rules) {
+        $index = 0;
+        foreach($rules as $rule) {
+            $index += count($rule->getAddedViolations());
+        }
+        return $index;
+    }
+
+    /**
+     * @param $rules \Dicto\RuleResult[]
+     * @return int
+     */
+    protected function getResolvedViolationIndex($rules) {
+        $index = 0;
+        foreach($rules as $rule) {
+            $index += count($rule->getResolvedViolations());
+        }
+        return $index;
+    }
+
+    /**
+     * @param $rules \Dicto\RuleResult[]
+     * @return int
+     */
+    protected function calculateViolationIndex($rules)
+    {
+        $index = 0;
+        foreach ($rules as $rule) {
+            $index += count($rule->getErrors());
+        }
+        return $index;
     }
 }

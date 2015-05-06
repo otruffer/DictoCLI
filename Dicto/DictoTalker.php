@@ -2,8 +2,6 @@
 
 namespace Dicto;
 
-use Dicto\DictoAPIException;
-
 class DictoTalker {
 
     const POST = 1;
