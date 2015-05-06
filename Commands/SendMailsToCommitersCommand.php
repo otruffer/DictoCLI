@@ -35,6 +35,12 @@ class SendMailsToCommitersCommand extends DictoCommand{
                 InputArgument::OPTIONAL,
                 'homepage url.'
             )
+            ->addOption(
+                'compareFile',
+                null,
+                InputArgument::OPTIONAL,
+                'compareFile.'
+            )
 
             ->setDescription('Sends results page Mail to all commiters between two commits');
     }
@@ -53,6 +59,18 @@ class SendMailsToCommitersCommand extends DictoCommand{
         $emails = array_unique($emails);
 
         $results = $this->dicto->getResults($input->getOption("suiteName"));
+        $compareRules = $this->getCompareFile($input->getOption("compareFile"));
+
+        if($compareRules) {
+            //We first give each current rule their previous results.
+            foreach($results as $rule) {
+                if(array_key_exists($rule->getRule(), $this->compareRules)) {
+                    $rule->setPreviousResult($this->compareRules[$rule->getRule()]);
+                    unset($this->compareRules[$rule->getRule()]);
+                }
+            }
+        }
+
         $total = $this->calculateViolationIndex($results);
         $added = $this->getAddedViolationIndex($results);
         $removed = $this->getResolvedViolationIndex($results);
@@ -118,5 +136,16 @@ class SendMailsToCommitersCommand extends DictoCommand{
             $index += count($rule->getErrors());
         }
         return $index;
+    }
+
+    public function getCompareFile($filePath) {
+        $content = file_get_contents($filePath);
+        $rules = array();
+        foreach(json_decode($content, true) as $ruleAsArray) {
+            $rule = new RuleResult();
+            $rule->readFromArray($ruleAsArray);
+            $rules[$rule->getRule()] = $rule;
+        }
+        return $rules;
     }
 }
