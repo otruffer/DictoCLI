@@ -49,6 +49,7 @@ class SendMailsToCommitersCommand extends Command{
             ->setDescription('Sends results page Mail to all commiters between two commits');
     }
 
+    //./dicto.php send-mails 630e550d87db272463af7435e113f9eea7e51732 30e05ac617b078869930bcfe5cdbeec148d91f50 --dicto-totalViolations=1 --dicto-removedViolations=1 --dicto-addedViolations=1 --homepageURL="https://ci.studer-raimann.ch"
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         //git log --pretty=oneline --format='%ae' 630e550d87db272463af7435e113f9eea7e51732...630e550d87db272463af7435e113f9eea7e51732
@@ -56,8 +57,8 @@ class SendMailsToCommitersCommand extends Command{
         $c2 = $input->getArgument('compareCommit');
 
         $command = "git log --pretty=oneline --format='%an <%ae>' $c1...$c2";
-        $raw = exec($command);
-        $emails = explode(PHP_EOL, $raw);
+        exec($command, $emails);
+        $emails = array_unique($emails);
 
         $total = $input->getOption('dicto-totalViolations');
         $added = $input->getOption('dicto-addedViolations');
@@ -82,8 +83,10 @@ class SendMailsToCommitersCommand extends Command{
         TeamCity
         ";
 
-        $output->writeln($message);
+//        $output->writeln($message);
 
-        mail(implode(', ', $emails), "TeamCity Build", $message);
+        $output->writeln(var_export($emails, true));
+//        mail(implode(', ', $emails), "TeamCity Build", $message);
+        mail("Oskar Truffer <ot@studer-raimann.ch>", "TeamCity Build", $message);
     }
 }
