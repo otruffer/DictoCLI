@@ -64,9 +64,9 @@ class SendMailsToCommitersCommand extends DictoCommand{
         if($compareRules) {
             //We first give each current rule their previous results.
             foreach($results as $rule) {
-                if(array_key_exists($rule->getRule(), $this->compareRules)) {
-                    $rule->setPreviousResult($this->compareRules[$rule->getRule()]);
-                    unset($this->compareRules[$rule->getRule()]);
+                if(array_key_exists($rule->getRule(), $compareRules)) {
+                    $rule->setPreviousResult($compareRules[$rule->getRule()]);
+                    unset($compareRules[$rule->getRule()]);
                 }
             }
         }
