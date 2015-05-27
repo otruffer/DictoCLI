@@ -84,21 +84,24 @@ class SendMailsToCommitersCommand extends DictoCommand{
         <html>
         <title>TeamCity ILIAS Build</title>
             <body>
-                Dear Committer
+                <h1>Dear Committer</h1>
 
-                The current build on our TeamCity-Server found your E-Mail address among the committers.
+                <p>The current build on our TeamCity-Server found your E-Mail address among the committers.</p>
 
-                <a href='$url'>$url</a>
-
-                Dicto
-                Added Violations: $added
-                Resolved Violations: $removed
-                Total Violations: $total
-
-                The comparison was made between git commits $c1 and $c2.
-
-                Cheers & Happy Programming
+                <p><a href='$url'>$url</a></p>
+                <p>
+                Dicto <br/>
+                Added Violations: $added <br/>
+                Resolved Violations: $removed <br/>
+                Total Violations: $total <br/>
+                </p>
+                <p>
+                    The comparison was made between git commits $c1 and $c2.
+                </p>
+                <p>
+                Cheers & Happy Programming <br/>
                 TeamCity
+                </p>
             </body>
         </html>
         ";
@@ -108,7 +111,7 @@ class SendMailsToCommitersCommand extends DictoCommand{
         $output->writeln(var_export($emails, true));
 //        mail(implode(', ', $emails), "TeamCity Build", $message);
 //        mail("Oskar Truffer <ot@studer-raimann.ch>", "TeamCity Build", $message);
-        
+
         $header  = "MIME-Version: 1.0\r\n";
         $header .= "Content-type: text/html; charset=iso-8859-1\r\n";
         $header .= "X-Mailer: PHP ". phpversion();
