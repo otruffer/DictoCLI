@@ -46,6 +46,10 @@ class SendMailsToCommitersCommand extends DictoCommand{
     }
 
     //./dicto.php send-mails 630e550d87db272463af7435e113f9eea7e51732 30e05ac617b078869930bcfe5cdbeec148d91f50 --dicto-totalViolations=1 --dicto-removedViolations=1 --dicto-addedViolations=1 --homepageURL="https://ci.studer-raimann.ch"
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         parent::execute($input, $output);
@@ -77,21 +81,26 @@ class SendMailsToCommitersCommand extends DictoCommand{
         $url = $input->getOption('homepageURL');
 
         $message = "
-        Dear Committer
+        <html>
+        <title>TeamCity ILIAS Build</title>
+            <body>
+                Dear Committer
 
-        The current build on our TeamCity-Server found your E-Mail address among the committers.
+                The current build on our TeamCity-Server found your E-Mail address among the committers.
 
-        <a href=\"$url\">$url</a>
+                <a href='$url'>$url</a>
 
-        Dicto
-        Added Violations: $added
-        Resolved Violations: $removed
-        Total Violations: $total
+                Dicto
+                Added Violations: $added
+                Resolved Violations: $removed
+                Total Violations: $total
 
-        The comparison was made between git commits $c1 and $c2.
+                The comparison was made between git commits $c1 and $c2.
 
-        Cheers & Happy Programming
-        TeamCity
+                Cheers & Happy Programming
+                TeamCity
+            </body>
+        </html>
         ";
 
         $output->writeln($message);
