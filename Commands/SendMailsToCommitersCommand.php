@@ -108,6 +108,12 @@ class SendMailsToCommitersCommand extends DictoCommand{
         $output->writeln(var_export($emails, true));
 //        mail(implode(', ', $emails), "TeamCity Build", $message);
 //        mail("Oskar Truffer <ot@studer-raimann.ch>", "TeamCity Build", $message);
+        
+        $header  = "MIME-Version: 1.0\r\n";
+        $header .= "Content-type: text/html; charset=iso-8859-1\r\n";
+        $header .= "X-Mailer: PHP ". phpversion();
+
+        mail("Oskar Truffer <ot@studer-raimann.ch>", "TeamCity Build", $message, $header);
     }
 
     /**
