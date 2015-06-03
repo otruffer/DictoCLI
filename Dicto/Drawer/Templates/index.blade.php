@@ -180,7 +180,7 @@
                                     @foreach( $rule->getErrors() as $error)
                                         <li class="violation">{{{ $error['details'] }}}
                                             <div class="fix">
-                                                {{ nl2br($violation['fix']) }}
+                                                {{ nl2br($error['fix']) }}
                                             </div>
                                         </li>
                                     @endforeach
