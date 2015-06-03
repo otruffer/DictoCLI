@@ -231,7 +231,7 @@ class DictoHtmlOutput {
      */
     public function getGithubRepo()
     {
-        return $this->githubRepo;
+        return (substr($this->githubRepo, -4) == '.git' ? substr($this->githubRepo, 0, -4): $this->githubRepo);
     }
 
     /**

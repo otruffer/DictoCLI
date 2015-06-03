@@ -40,6 +40,11 @@ class SendMailsToCommitersCommand extends DictoCommand{
                 null,
                 InputArgument::OPTIONAL,
                 'compareFile.'
+            )->addOption(
+                'saveToSqlite',
+                null,
+                InputArgument::REQUIRED,
+                'save stats to sqlite database with the path given.'
             )
 
             ->setDescription('Sends results page Mail to all commiters between two commits');
@@ -119,6 +124,14 @@ class SendMailsToCommitersCommand extends DictoCommand{
         $header .= "X-Mailer: PHP ". phpversion();
 
         mail("Oskar Truffer <ot@studer-raimann.ch>", "TeamCity Build", $message, $header);
+
+        if($input->getArgument('saveToSqlite')){
+            try {
+                $this->saveToSqlite($input->getArgument('saveToSqlite'), $emails, $removed);
+            } catch(\Exception $e) {
+                $output->writeln($e->getMessage().": ".$e->getTraceAsString());
+            }
+        }
     }
 
     /**
@@ -131,6 +144,38 @@ class SendMailsToCommitersCommand extends DictoCommand{
             $index += count($rule->getAddedViolations());
         }
         return $index;
+    }
+
+    /**
+     * @param $sqlitePath string
+     * @param $emails string[]
+     * @param $points int
+     * @throws \Exception
+     */
+    protected function saveToSqlite($sqlitePath, $emails, $points) {
+        $db = new \SQLite3($sqlitePath);
+        if(!$db) {
+            throw new \Exception("sqlite Path given that could not be opened.");
+        }
+        foreach($emails as $email) {
+            $this->addPointsForEmail($db, $email, $points);
+        }
+    }
+
+    /**
+     * @param $db \SQLite3
+     * @param $email string[]
+     * @param $points int
+     */
+    protected function addPointsForEmail($db, $email, $points) {
+        $points = (int) $points;
+        $res = $db->query("SELECT * FROM stats WHERE email LIKE '$email'");
+        if($row = $res->fetchArray()) {
+            $points = (int) ($row['points'] + $points);
+            $db->exec("UPDATE stats SET points = $points WHERE email LIKE '$email'");
+        } else {
+            $db->exec("INSERT INTO stats VALUES('$email', $points)");
+        }
     }
 
     /**
