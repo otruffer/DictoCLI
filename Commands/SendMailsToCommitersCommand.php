@@ -4,6 +4,7 @@ namespace Dicto\Commands;
 use Dicto\RuleResult;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SendMailsToCommitersCommand extends DictoCommand{
@@ -26,24 +27,24 @@ class SendMailsToCommitersCommand extends DictoCommand{
             ->addOption(
                 'dicto-addedViolations',
                 null,
-                InputArgument::OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'how many dicto violations were added.'
             )
             ->addOption(
                 'homepageURL',
                 null,
-                InputArgument::OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'homepage url.'
             )
             ->addOption(
                 'compareFile',
                 null,
-                InputArgument::OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'compareFile.'
             )->addOption(
                 'saveToSqlite',
                 null,
-                InputArgument::REQUIRED,
+                InputOption::VALUE_REQUIRED,
                 'save stats to sqlite database with the path given.'
             )
 
