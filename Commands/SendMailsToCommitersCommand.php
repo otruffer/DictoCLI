@@ -125,9 +125,9 @@ class SendMailsToCommitersCommand extends DictoCommand{
 
         mail("Oskar Truffer <ot@studer-raimann.ch>", "TeamCity Build", $message, $header);
 
-        if($input->getArgument('saveToSqlite')){
+        if($input->getOption('saveToSqlite')){
             try {
-                $this->saveToSqlite($input->getArgument('saveToSqlite'), $emails, $removed);
+                $this->saveToSqlite($input->getOption('saveToSqlite'), $emails, $removed);
             } catch(\Exception $e) {
                 $output->writeln($e->getMessage().": ".$e->getTraceAsString());
             }
