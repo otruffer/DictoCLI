@@ -164,7 +164,7 @@ class SendMailsToCommitersCommand extends DictoCommand{
 
     /**
      * @param $db \SQLite3
-     * @param $email string[]
+     * @param $email string
      * @param $points int
      */
     protected function addPointsForEmail($db, $email, $points) {
