@@ -46,6 +46,11 @@ class SendMailsToCommitersCommand extends DictoCommand{
                 null,
                 InputOption::VALUE_REQUIRED,
                 'save stats to sqlite database with the path given.'
+            )->addOption(
+                'emailSubject',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'The subject of the email sent out.'
             )
 
             ->setDescription('Sends results page Mail to all commiters between two commits');
@@ -63,6 +68,7 @@ class SendMailsToCommitersCommand extends DictoCommand{
         //git log --pretty=oneline --format='%ae' 630e550d87db272463af7435e113f9eea7e51732...630e550d87db272463af7435e113f9eea7e51732
         $c1 = $input->getArgument('commit');
         $c2 = $input->getArgument('compareCommit');
+        $emailSubject = $input->getOption('emailSubject') ? $input->getOption('emailSubject') : '[ILIAS-CI] Your contribution';
 
         $command = "git log --pretty=oneline --format='%an <%ae>' $c1...$c2";
         exec($command, $emails);
@@ -115,16 +121,17 @@ class SendMailsToCommitersCommand extends DictoCommand{
         </html>
         ";
 
-        $output->writeln($message);
-
-        $output->writeln(var_export($emails, true));
-
         $header  = "MIME-Version: 1.0\r\n";
         $header .= "Content-type: text/html; charset=iso-8859-1\r\n";
         $header .= "X-Mailer: PHP ". phpversion();
-
-        mail(implode(', ', $emails), "TeamCity Build", $message, $header);
-//        mail("Oskar Truffer <ot@studer-raimann.ch>", "TeamCity Build", $message, $header);
+        if($added != 0 || $removed != 0) {
+            mail(implode(', ', $emails), $emailSubject, $message, $header);
+            $output->writeln('Sent Email:');
+            $output->writeln($message);
+            $output->writeln(var_export($emails, true));
+        } else {
+            $output->writeln('No changes: Mails not sent.');
+        }
 
         if($input->getOption('saveToSqlite')){
             try {
