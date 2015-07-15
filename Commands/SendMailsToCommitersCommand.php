@@ -135,7 +135,7 @@ class SendMailsToCommitersCommand extends DictoCommand{
 
         if($input->getOption('saveToSqlite')){
             try {
-                $this->saveToSqlite($input->getOption('saveToSqlite'), $emails, $removed);
+                $this->saveToSqlite($input->getOption('saveToSqlite'), $emails, $removed, $added);
             } catch(\Exception $e) {
                 $output->writeln($e->getMessage().": ".$e->getTraceAsString());
             }
@@ -160,13 +160,14 @@ class SendMailsToCommitersCommand extends DictoCommand{
      * @param $points int
      * @throws \Exception
      */
-    protected function saveToSqlite($sqlitePath, $emails, $points) {
+    protected function saveToSqlite($sqlitePath, $emails, $points, $negative) {
         $db = new \SQLite3($sqlitePath);
         if(!$db) {
             throw new \Exception("sqlite Path given that could not be opened.");
         }
         foreach($emails as $email) {
             $this->addPointsForEmail($db, $email, $points);
+            $this->removePointsForEmail($db, $email, $negative);
         }
     }
 
@@ -183,6 +184,22 @@ class SendMailsToCommitersCommand extends DictoCommand{
             $db->exec("UPDATE stats SET points = $points WHERE email LIKE '$email'");
         } else {
             $db->exec("INSERT INTO stats VALUES('$email', $points)");
+        }
+    }
+
+    /**
+     * @param $db \SQLite3
+     * @param $email string
+     * @param $points int
+     */
+    protected function removePointsForEmail($db, $email, $points) {
+        $points = (int) $points;
+        $res = $db->query("SELECT * FROM minus_stats WHERE email LIKE '$email'");
+        if($row = $res->fetchArray()) {
+            $points = (int) ($row['points'] + $points);
+            $db->exec("UPDATE stats SET minus_points = $points WHERE email LIKE '$email'");
+        } else {
+            $db->exec("INSERT INTO minus_stats VALUES('$email', $points)");
         }
     }
 
