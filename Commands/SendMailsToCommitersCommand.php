@@ -70,7 +70,7 @@ class SendMailsToCommitersCommand extends DictoCommand{
         $c2 = $input->getArgument('compareCommit');
         $emailSubject = $input->getOption('emailSubject') ? $input->getOption('emailSubject') : '[ILIAS-CI] Your contribution';
 
-        $command = "git log --pretty=oneline --format='%an <%ae>' $c1...$c2";
+        $command = "git log --pretty=oneline --format='%ae' $c1...$c2";
         exec($command, $emails);
         $emails = array_unique($emails);
 
