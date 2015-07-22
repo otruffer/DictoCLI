@@ -197,7 +197,7 @@ class SendMailsToCommitersCommand extends DictoCommand{
         $res = $db->query("SELECT * FROM minus_stats WHERE email LIKE '$email'");
         if($row = $res->fetchArray()) {
             $points = (int) ($row['points'] + $points);
-            $db->exec("UPDATE stats SET minus_points = $points WHERE email LIKE '$email'");
+            $db->exec("UPDATE stats SET minus_stats = $points WHERE email LIKE '$email'");
         } else {
             $db->exec("INSERT INTO minus_stats VALUES('$email', $points)");
         }
