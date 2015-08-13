@@ -9,6 +9,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SendMailsToCommitersCommand extends DictoCommand{
 
+    protected $exclude = array(
+    );
+
     protected function configure()
     {
         parent::configure();
@@ -52,7 +55,6 @@ class SendMailsToCommitersCommand extends DictoCommand{
                 InputOption::VALUE_REQUIRED,
                 'The subject of the email sent out.'
             )
-
             ->setDescription('Sends results page Mail to all commiters between two commits');
     }
 
@@ -73,6 +75,7 @@ class SendMailsToCommitersCommand extends DictoCommand{
         $command = "git log --pretty=oneline --format='%ae' $c1...$c2";
         exec($command, $emails);
         $emails = array_unique($emails);
+        $emails = array_diff($emails, $this->exclude);
 
         $results = $this->dicto->getResults($input->getOption("suiteName"));
         $compareRules = $this->getCompareFile($input->getOption("compareFile"));
@@ -124,7 +127,7 @@ class SendMailsToCommitersCommand extends DictoCommand{
         $header  = "MIME-Version: 1.0\r\n";
         $header .= "Content-type: text/html; charset=iso-8859-1\r\n";
         $header .= "X-Mailer: PHP ". phpversion();
-        if($added != 0 || $removed != 0) {
+        if(count($emails) == 1 && ($added != 0 || $removed != 0)) {
             mail(implode(', ', $emails), $emailSubject, $message, $header);
             $output->writeln('Sent Email:');
             $output->writeln($message);
