@@ -136,7 +136,7 @@ class SendMailsToCommitersCommand extends DictoCommand{
             $output->writeln('No changes: Mails not sent.');
         }
 
-        if($input->getOption('saveToSqlite')){
+        if($input->getOption('saveToSqlite') && count($emails) == 1){
             try {
                 $this->saveToSqlite($input->getOption('saveToSqlite'), $emails, $removed, $added);
             } catch(\Exception $e) {
