@@ -133,8 +133,14 @@ class SendMailsToCommitersCommand extends DictoCommand{
             $output->writeln($message);
             $output->writeln(var_export($emails, true));
         } else {
-            $output->writeln('No changes: Mails not sent.');
+            if(count($emails) == 1){
+               $output->writeln("Could not reliably check for comitter. Possible comitters are: ".implode(', ',$emails));
+            } else {
+                $output->writeln('No changes: Mails not sent.');
+            }
         }
+
+
 
         if($input->getOption('saveToSqlite') && count($emails) == 1){
             try {
